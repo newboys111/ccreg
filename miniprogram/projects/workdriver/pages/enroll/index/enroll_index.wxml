@@ -1,0 +1,49 @@
+<view wx:if="{{!isLoad}}" class="margin-top load loading text-l load-project"></view>
+<block wx:else>
+
+	<cmpt-comm-list type="enroll-list" _params="{{_params}}" search="{{search||''}}" _menus="{{sortMenus}}" _items="{{sortItems}}" sortMenusDefaultIndex="0" route="enroll/list" topBottom="120" isTotalMenu="{{true}}" placeholder="搜索" bind:list="bindCommListCmpt">
+		<!--
+	<view class="up-project">
+		<image mode="widthFix" lazy-load src="{{upImg}}" />
+	</view>
+	-->
+		<!-- List Begin -->
+		<view class="enroll-list" wx:for="{{dataList.list}}" wx:key="key" bindtap="url" data-url="../detail/enroll_detail?id={{item._id}}">
+			<view class="item shadow shadow-project margin-top-xs">
+				<view wx:if="{{item.ENROLL_ORDER==0}}" class="corner bg-project">置顶</view>
+				<view class="top">
+					<view class="left" wx:if="{{item.ENROLL_OBJ.cover[0]}}">
+						<image mode="aspectFill" lazy-load="{{true}}" class="loading" src="{{item.ENROLL_OBJ.cover[0]}}">
+						</image>
+					</view>
+
+					<view class="right">
+						<view class="title content-cut-two">{{item.ENROLL_TITLE}}</view>
+						<view class="line1"><text class="icon-time margin-right-xxs"></text>报名开始：{{item.start}}</view>
+						<view class="line2"><text class="icon-remind margin-right-xxs"></text>报名截止：{{item.end}}</view>
+					</view>
+				</view>
+				<view class="bottom">
+					<text class="text-grey">{{isShowCate?'#'+item.ENROLL_CATE_NAME:''}}</text>
+					<text wx:if="{{item.statusDesc=='进行中'}}" class="status comm">进行中</text>
+					<text wx:else class="status">{{item.statusDesc}}</text>
+				</view>
+
+			</view>
+		</view>
+		<!-- List END -->
+
+		<!--load begin-->
+		<import src="../../../../../tpls/public/list_load_tpl.wxml" />
+		<template is="listLoadTpl" data="{{skin:'load-project',dataList}}" />
+		<!--load end-->
+
+	</cmpt-comm-list>
+
+	 
+	<block wx:if="{{skin.IS_SUB}}">
+		<import src="../../tpls/menu_tpl.wxml" />
+		<template is="menuTpl" data="{{skin,curMenu:'enroll_index',returnHome}}" />
+	</block> 
+
+</block>
